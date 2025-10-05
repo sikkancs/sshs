@@ -5,7 +5,6 @@ It is inspired by [trzsz-ssh](https://github.com/trzsz/trzsz-ssh) but avoids Go,
 
 Works directly with your SSH config file (~/.ssh/config)
 
-
 ## Features
 - Search through SSH hosts (entries in ~/.ssh/config)
 - Two-column menu: Host name (with HostName) + Tags
@@ -14,6 +13,23 @@ Works directly with your SSH config file (~/.ssh/config)
     - Enter: Connect normally: ssh {host}
     - Ctrl+V: Connect in verbose mode: ssh -vvvv {host}
     - ?: Toggle preview (show host config)
+
+## How it works
+
+sshs parses your ~/.ssh/config and builds an interactive menu using fzf and AWK script, showing each Host, its HostName, and optional #Tags (like #Tags work prod). Select an entry to connect via SSH instantly.
+
+It builds an interactive list of SSH hosts for fzf, showing:
+- Host → the SSH alias (Host myserver)
+- Hostname → the real address or IP (HostName 192.168.1.10)
+- Tags → optional labels from lines like # Tags work prod
+
+Each entry is displayed as:
+`myserver (192.168.1.10)    work prod`
+
+Tags are optional — if no # Tags line is found, the field is left empty.
+The first column (Host) is used to run ssh {host} when selected.
+
+sshs parses your ~/.ssh/config and builds an interactive menu using fzf, showing each Host, its HostName, and optional # Tags (like # Tags work prod). Select an entry to connect via SSH instantly.
 
 ## Installation on macOS
 
@@ -69,3 +85,5 @@ Host NAS01
 
 ## Known issues
 - If the SSH connection succeeds, you see the verbose logs in real-time, but if SSH fails immediately (host unreachable, wrong port, network issue), the SSH process terminates, and FZF restores the terminal buffer --> That “restore” wipes the output — so the verbose messages disappear almost instantly.
+- Downsizing the terminal width will create mess.
+- 
