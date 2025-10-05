@@ -44,7 +44,7 @@ source ~/.zshrc
 Run `sshs` in terminal.  
 Run `sshs -h` for key bindings.
 
-## Screenshots with SSH config example
+## Screenshots
 
 Without preview
 ![without-preview.png](https://github.com/sikkancs/sshs/blob/main/screenshots/without-preview.png)
