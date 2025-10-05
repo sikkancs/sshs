@@ -44,11 +44,18 @@ source ~/.zshrc
 Run `sshs` in terminal.  
 Run `sshs -h` for key bindings.
 
-## Screenshots with SSH config examples
+## Screenshots with SSH config example
 
-![screenshot](https://github.com/sikkancs/sshs/blob/main/screenshots/search-for-hostname.png)
+![without-preview.png](https://github.com/sikkancs/sshs/blob/main/screenshots/without-preview.png)
+
+![with-preview.png](https://github.com/sikkancs/sshs/blob/main/screenshots/with-preview.png)
+
+![search-for-hostname](https://github.com/sikkancs/sshs/blob/main/screenshots/search-for-hostname.png)
+
+![search-for-tag](https://github.com/sikkancs/sshs/blob/main/screenshots/search-for-tag.png)
 
 
+**SSH config example for the screenshots above**
 ```
 Host firewall-1
 	HostName 172.21.254.11
