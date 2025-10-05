@@ -1,7 +1,6 @@
 # SSHs – Interactive SSH Menu for macOS
 
-sshs is a shell script + AWK tool that lets you quickly browse and connect to your SSH hosts using fzf.
-
+SSHs is a shell script + AWK tool that lets you quickly browse and connect to your SSH hosts using fzf.  
 It is inspired by [trzsz-ssh](https://github.com/trzsz/trzsz-ssh) but avoids Go, using only shell and AWK, following the approach described in [How I manage SSH connections](https://hiphish.github.io/blog/2020/05/23/how-i-manage-ssh-connections/).
 
 Works directly with your SSH config file (~/.ssh/config)
@@ -15,8 +14,6 @@ Works directly with your SSH config file (~/.ssh/config)
     - Enter: Connect normally: ssh {host}
     - Ctrl+V: Connect in verbose mode: ssh -vvvv {host}
     - ?: Toggle preview (show host config)
-- Fancy help with -h
-
 
 ## Installation on macOS
 
@@ -37,16 +34,35 @@ source ~/.zshrc
 ```
 
 ## Usage
-Type `sshs` in terminal.
-- Start typing to filter hosts
-- Press Enter to connect normally
-- Press Ctrl+V to connect in verbose mode (ssh -vvvv)
-- Press ? to toggle preview of the host configuration
+Run `sshs` in terminal.  
+Run `sshs -h` for key bindings.
 
-Or type `sshs -h` for usage.
+## SSH config examples (~/.ssh/config)
+```
+Host firewall-1
+	HostName 172.21.254.11
+	Port 22
+	User orange
+	PreferredAuthentications password
+	PubkeyAuthentication no
+	#Tags firewall ACTIVEpair paloalto
 
-## Optional
-- Customize the number of menu items (--height=~10)
-- Customize preview window size (--preview-window)
-- Customize hotkeys (--bind)
-- Add your own #Tags in ~/.ssh/config to categorize hosts
+Host test-webserver-1
+	HostName 10.10.0.12
+	Port 22
+	User brokkoli
+	PreferredAuthentications publickey
+	IdentityFile ~/.ssh/test-webserver-1
+	IdentitiesOnly yes
+	#Tags test dev staging apache ubuntu webserver
+
+Host NAS01
+		HostName 192.168.0.100
+		Port 22
+		User root
+		PreferredAuthentications publickey
+		IdentityFile ~/.ssh/nas01.pub
+		IdentityAgent "~/Library/Group Containers/2BUA8C4S2C.com.1password/t/agent.sock"
+		IdentitiesOnly yes
+		#Tags nas prod rack10unit11
+```
