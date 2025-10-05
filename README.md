@@ -66,3 +66,6 @@ Host NAS01
 	IdentitiesOnly yes
 	#Tags nas prod rack10unit11
 ```
+
+## Known issues
+- If the SSH connection succeeds, you see the verbose logs in real-time, but if SSH fails immediately (host unreachable, wrong port, network issue), the SSH process terminates, and FZF restores the terminal buffer --> That “restore” wipes the output — so the verbose messages disappear almost instantly.
