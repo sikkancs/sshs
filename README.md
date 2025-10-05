@@ -46,6 +46,8 @@ Run `sshs -h` for key bindings.
 
 ## Screenshots with SSH config examples
 
+![screenshot](https://github.com/sikkancs/sshs/blob/main/screenshots/search-for-hostname.png)
+
 
 ```
 Host firewall-1
