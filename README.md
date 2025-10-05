@@ -59,36 +59,6 @@ Search 2
 ![search-for-tag](https://github.com/sikkancs/sshs/blob/main/screenshots/search-for-tag.png)
 
 
-**SSH config example for the screenshots above**
-```
-Host firewall-1
-	HostName 172.21.254.11
-	Port 22
-	User orange
-	PreferredAuthentications password
-	PubkeyAuthentication no
-	#Tags firewall ACTIVEpair paloalto
-
-Host test-webserver-1
-	HostName 10.10.0.12
-	Port 22
-	User brokkoli
-	PreferredAuthentications publickey
-	IdentityFile ~/.ssh/test-webserver-1
-	IdentitiesOnly yes
-	#Tags test dev staging apache ubuntu webserver
-
-Host NAS01
-	HostName 192.168.0.100
-	Port 22
-	User root
-	PreferredAuthentications publickey
-	IdentityFile ~/.ssh/nas01.pub
-	IdentityAgent "~/Library/Group Containers/2BUA8C4S2C.com.1password/t/agent.sock"
-	IdentitiesOnly yes
-	#Tags nas prod rack10unit11
-```
-
 ## Known issues
 - If the SSH connection succeeds, you see the verbose logs in real-time, but if SSH fails immediately (host unreachable, wrong port, network issue), the SSH process terminates, and FZF restores the terminal buffer --> That “restore” wipes the output — so the verbose messages disappear almost instantly.
 - Downsizing the terminal width will create mess.
