@@ -8,7 +8,7 @@ Works directly with your SSH config file (~/.ssh/config)
 
 ## What it does
 sshs.sh parses your `~/.ssh/config` and builds an interactive menu in terminal using fzf and AWK script, showing each Host, its HostName, and optional #Tags (like #Tags work prod) and allows to search between them.  
-Select an entry to connect via SSH instantly or pressing the `?` button will show connection details.  
+Select an entry to connect via SSH instantly and pressing the `?` button will show connection details.  
 Tags are optional — if no #Tags line is found, the field is left empty.
 The first column (Host) is used to run ssh {host} when selected.
 
