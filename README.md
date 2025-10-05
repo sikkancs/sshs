@@ -6,7 +6,6 @@ It is inspired by [trzsz-ssh](https://github.com/trzsz/trzsz-ssh) but avoids Go,
 
 Works directly with your SSH config file (~/.ssh/config)
 
-This project was created with the help of ChatGPT to simplify SSH management while keeping it lightweight, portable, and easy to extend.
 
 ## Features
 - Search through SSH hosts (entries in ~/.ssh/config)
