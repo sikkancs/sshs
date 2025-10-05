@@ -24,7 +24,7 @@ brew install fzf
 # Clone the repository:
 git clone https://github.com/sikkancs/sshs.git ~/.ssh/sshs
 
-# Make scripts executable:**  
+# Make scripts executable:
 chmod +x ~/.ssh/sshs/sshs.sh
 chmod +x ~/.ssh/sshs/sshs.awk
 
@@ -57,12 +57,12 @@ Host test-webserver-1
 	#Tags test dev staging apache ubuntu webserver
 
 Host NAS01
-		HostName 192.168.0.100
-		Port 22
-		User root
-		PreferredAuthentications publickey
-		IdentityFile ~/.ssh/nas01.pub
-		IdentityAgent "~/Library/Group Containers/2BUA8C4S2C.com.1password/t/agent.sock"
-		IdentitiesOnly yes
-		#Tags nas prod rack10unit11
+	HostName 192.168.0.100
+	Port 22
+	User root
+	PreferredAuthentications publickey
+	IdentityFile ~/.ssh/nas01.pub
+	IdentityAgent "~/Library/Group Containers/2BUA8C4S2C.com.1password/t/agent.sock"
+	IdentitiesOnly yes
+	#Tags nas prod rack10unit11
 ```
