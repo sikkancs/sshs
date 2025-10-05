@@ -46,12 +46,16 @@ Run `sshs -h` for key bindings.
 
 ## Screenshots with SSH config example
 
+Without preview
 ![without-preview.png](https://github.com/sikkancs/sshs/blob/main/screenshots/without-preview.png)
 
+With preview
 ![with-preview.png](https://github.com/sikkancs/sshs/blob/main/screenshots/with-preview.png)
 
+Search 1
 ![search-for-hostname](https://github.com/sikkancs/sshs/blob/main/screenshots/search-for-hostname.png)
 
+Search 2
 ![search-for-tag](https://github.com/sikkancs/sshs/blob/main/screenshots/search-for-tag.png)
 
 
