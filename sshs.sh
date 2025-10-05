@@ -9,9 +9,9 @@ Usage:
   sshs           Launch the SSH menu
   sshs -h|--help Show this help message
 
-Key Bindings in Menu:
+Key bindings in menu:
   Enter         Connect normally (ssh {host})
-  Ctrl+V        Connect in verbose mode (ssh -vvvv {host})
+  Ctrl+v        Connect in verbose mode (ssh -vvvv {host})
   ?             Toggle preview (show SSH config)
   Esc/Ctrl-c    Exit
 EOF
