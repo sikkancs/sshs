@@ -18,7 +18,7 @@ The first column (Host) is used to run ssh {host} when selected.
 - Preview: shows the SSH configuration for the selected host
 - Key bindings:
     - Enter: Connect normally: ssh {host}
-    - Ctrl+V: Connect in verbose mode: ssh -vvvv {host} (check Known issues)
+    - Ctrl+V: Connect in verbose mode: ssh -vvvv {host} (check [Known issues](#known-issues))
     - ?: Toggle preview (show host config)
 
 
@@ -43,21 +43,6 @@ source ~/.zshrc
 ## Usage
 Run `sshs` in terminal.  
 Run `sshs -h` for key bindings.
-
-## Screenshots
-
-Without preview
-![without-preview.png](https://github.com/sikkancs/sshs/blob/main/screenshots/without-preview.png)
-
-With preview
-![with-preview.png](https://github.com/sikkancs/sshs/blob/main/screenshots/with-preview.png)
-
-Search 1
-![search-for-hostname](https://github.com/sikkancs/sshs/blob/main/screenshots/search-for-hostname.png)
-
-Search 2
-![search-for-tag](https://github.com/sikkancs/sshs/blob/main/screenshots/search-for-tag.png)
-
 
 ## Known issues
 - If the SSH connection succeeds, you see the verbose logs in real-time, but if SSH fails immediately (host unreachable, wrong port, network issue), the SSH process terminates, and FZF restores the terminal buffer -> that “restore” wipes the output — so the verbose messages disappear almost instantly.
