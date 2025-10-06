@@ -84,7 +84,7 @@ hostlist=$(
 
 # --- FZF config ---
 export FZF_DEFAULT_OPTS='
---height=~12
+--height=50%
 --reverse
 --exact
 --tiebreak=begin,length
