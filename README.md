@@ -60,5 +60,5 @@ Search 2
 
 
 ## Known issues
-- If the SSH connection succeeds, you see the verbose logs in real-time, but if SSH fails immediately (host unreachable, wrong port, network issue), the SSH process terminates, and FZF restores the terminal buffer --> That “restore” wipes the output — so the verbose messages disappear almost instantly.
+- If the SSH connection succeeds, you see the verbose logs in real-time, but if SSH fails immediately (host unreachable, wrong port, network issue), the SSH process terminates, and FZF restores the terminal buffer -> that “restore” wipes the output — so the verbose messages disappear almost instantly.
 - Downsizing the terminal width will create mess.
