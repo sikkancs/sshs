@@ -84,7 +84,7 @@ hostlist=$(
 
 # --- FZF config ---
 export FZF_DEFAULT_OPTS='
---height=50%
+--height=60%
 --reverse
 --exact
 --tiebreak=begin,length
@@ -95,9 +95,12 @@ export FZF_DEFAULT_OPTS='
 --bind "?":toggle-preview
 --bind "ctrl-v:execute(ssh -vvvv {1})+abort"
 --prompt="Search hosts, hostnames, or tags: "
---border=rounded
 --layout=reverse
+--info=right
 --header-lines=1
+--border=rounded
+--border-label=" SSHs "
+--ellipsis=...
 '
 
 # --- Run menu ---
