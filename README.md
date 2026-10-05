@@ -1,49 +1,207 @@
 # SSHs – Interactive SSH Menu for macOS
 
-SSHs is a shell script + AWK tool that lets you quickly browse and connect to your SSH hosts using [fzf](https://github.com/junegunn/fzf).  
+SSHs is a lightweight shell + AWK tool that lets you browse and connect to SSH hosts using fzf.  
+It was inspired by  [trzsz-ssh](https://github.com/trzsz/trzsz-ssh), but keeps things simple by using only:
 
-It is inspired by [trzsz-ssh](https://github.com/trzsz/trzsz-ssh) but avoids Go, using only shell and AWK, following the approach described in [How I manage SSH connections](https://hiphish.github.io/blog/2020/05/23/how-i-manage-ssh-connections/).  
+- zsh
+- awk
+- fzf
+- OpenSSH
 
-Works directly with your SSH config file (~/.ssh/config)
+No Go, no Python, no database.  
+SSHs works directly with your existing OpenSSH configuration and remains fully compatible with native ssh.
+
+SSHs tries to stay small.  
+The goal is not to replace SSH clients or become a terminal dashboard.
+
+It should remain:
+- simple
+- fast
+- dependency-light
+- fully compatible with native OpenSSH
+
+while making large multi-group SSH configurations easier to navigate.
 
 ## What it does
-sshs.sh parses your `~/.ssh/config` and builds an interactive menu in terminal using fzf and AWK script, showing each Host, its HostName, and optional #Tags (like #Tags work prod) and allows to search between them.  
-Select an entry to connect via SSH instantly and pressing the `?` button will show connection details.  
-Tags are optional — if no #Tags line is found, the field is left empty.
-The first column (Host) is used to run ssh {host} when selected.
+
+SSHs parses your OpenSSH configuration and builds an interactive host picker in the terminal using fzf and AWK and allows to search between them.  
+It reads:
+ 
+```shell
+~/.ssh/config
+~/.ssh/config.d/*.conf
+```
+
+and displays:
+
+- Host name
+- HostName / IP address
+- Optional Tags
+- Source configuration file  
+
+Hosts can be organized across multiple customer or project configuration files while remaining fully compatible with native OpenSSH.
+
+Select an entry to connect instantly, or press ? to display the host configuration preview.  
+
+Tags are optional. If no # Tags line is present, the Tags column remains empty.
+
 
 ## Features
-- Search through SSH hosts (entries in ~/.ssh/config)
-- Two-column menu: Host name (with HostName) + Tags
-- Preview: shows the SSH configuration for the selected host
-- Key bindings:
-    - Enter: Connect normally: ssh {host}
-    - Ctrl+V: Connect in verbose mode: ssh -vvvv {host} (check [Known issues](#known-issues))
-    - ?: Toggle preview (show host config)
+- Reads standard OpenSSH configuration
+- Supports ~/.ssh/config.d/*.conf
+- Fully compatible with native ssh
+- Search by Host, HostName and Tags
+- Preview selected host configuration
+- Shows source configuration file
+- Tracks and prioritizes the last 5 used hosts
+- One-key editing of source config files in VS Code
 
+## How It Works
 
-## Installation on macOS
+SSHs builds a temporary merged configuration from: `~/.ssh/config` and `~/.ssh/config.d/*.conf`
+
+This allows:
+
+- group-specific config files
+- project-based separation
+- native OpenSSH compatibility
+- a single searchable host list
+
+without maintaining multiple inventories.
+
+## Requirements
+- macOS/Linux
+- OpenSSH
+- zsh
+- awk
+- fzf
+- Visual Studio Code (optional, for Ctrl+E)
+
+## Directory Layout
+SSH host definitions remain in the standard OpenSSH location:
 
 ```bash
-# Ensure you have fzf installed:
+~/.ssh/
+├── config
+└── config.d/
+    ├── group1.conf
+    ├── group2.conf
+    ├── group3.conf
+    ├── group4.conf
+    └── ...
+```
+
+SSHs application files:
+```bash
+~/.config/sshs/
+├── sshs.sh
+├── sshs.awk
+└── recent
+```
+
+## Example SSH Configuration
+
+Main SSH agent configuration (`~/.ssh/config`):
+
+```conf
+Host *
+	StrictHostKeyChecking accept-new
+
+Include ~/.ssh/config.d/*.conf
+```
+
+Customer-specific file (`~/.ssh/config.d/group1)`):
+
+```conf
+Host vm-1
+	HostName 10.10.0.2
+	Port 22
+	User mynamedadmin
+	PreferredAuthentications publickey
+	IdentityFile ~/.ssh/1Password/SHA256_6mfGFxQoff_1f3jnbf_8A3+tCOCkvXzXasdddqZcu0+Bo.pub
+	IdentityAgent "~/Library/Group Containers/2BUA8C4S2C.com.1password/t/agent.sock"
+	IdentitiesOnly yes
+	#Tags Group1 Prod HAProxy
+
+Host vm-2
+	HostName 172.21.254.123
+	Port 22
+	User administrator
+	PreferredAuthentications password
+	PubkeyAuthentication no
+	#Tags Customer1 Lab fedora syslog-ng proxmoxvm
+
+Host vm-3
+	HostName 4.125.435.44
+	Port 22
+	User root
+	PreferredAuthentications publickey
+	IdentityFile ~/.ssh/mycert.pub
+	IdentitiesOnly yes
+	#Tags database mysql PROD
+```
+
+## Recent Hosts
+
+SSHs automatically remembers the last 5 successfully selected hosts.  
+The most recently used hosts are pinned to the top of the list for faster access.  
+The recent host cache is stored in: `~/.config/sshs/recent`
+
+## Installation and Usage
+
+Install fzf:
+```shell
 brew install fzf
+```
 
-# Clone the repository:
-git clone https://github.com/sikkancs/sshs.git ~/.ssh/sshs
+Create SSHs directory:
 
-# Make scripts executable:
-chmod +x ~/.ssh/sshs/sshs.sh
-chmod +x ~/.ssh/sshs/sshs.awk
+```shell
+mkdir -p ~/.config/sshs
+```
 
-# Add an alias to your shell configuration (~/.zshrc or ~/.bashrc):
-echo 'alias sshs="~/.ssh/sshs/sshs.sh"' >> ~/.zshrc
+Copy files:
+
+```shell
+~/.config/sshs/
+├── sshs.sh
+└── sshs.awk
+```
+Make executable:
+
+```shell
+chmod +x ~/.config/sshs/sshs.sh
+chmod +x ~/.config/sshs/sshs.awk
+```
+
+Add alias:
+
+```shell
+echo 'alias sshs="$HOME/.config/sshs/sshs.sh"' >> ~/.zshrc
 source ~/.zshrc
 ```
 
-## Usage
-Run `sshs` in terminal.  
-Run `sshs -h` for key bindings.
 
-## Known issues
-- If the SSH connection succeeds, you see the verbose logs in real-time, but if SSH fails immediately (host unreachable, wrong port, network issue), the SSH process terminates, and FZF restores the terminal buffer -> that “restore” wipes the output — so the verbose messages disappear almost instantly.
-- Downsizing the terminal width will create mess.
+Start SSHs:
+
+```shell
+sshs
+```
+
+Show help
+```shell
+sshs -h
+```
+
+## Key Bindings
+| Key          | Action                                 |
+| ------------ | -------------------------------------- |
+| Enter        | Connect normally                       |
+| Ctrl+V       | Connect using `ssh -vvvv`              |
+| Ctrl+E       | Open the source config file in VS Code |
+| ?            | Toggle configuration preview           |
+| Esc / Ctrl+C | Exit                                   |
+
+## Known Issues
+- Very small terminal widths may break column alignment.
+- Preview output is optimized for standard OpenSSH host definitions and may not perfectly display unusual multi-host patterns.
