@@ -1,4 +1,4 @@
-# ~/.ssh/sshs.awk
+# ~/.config/ssh/sshs.awk
 # Parse SSH config and print the configuration for HOST in a readable table.
 # Supports quoted values with spaces and CRLF line endings.
 
