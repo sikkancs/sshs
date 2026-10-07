@@ -3,8 +3,7 @@
 SSHs is a lightweight shell tool that lets you browse and connect to SSH hosts using fzf. 
 It was inspired by  [trzsz-ssh](https://github.com/trzsz/trzsz-ssh), but keeps things simple by using only:
 
-- zsh
-- awk
+- zsh/bash+awk or powershell
 - fzf
 - OpenSSH
 
