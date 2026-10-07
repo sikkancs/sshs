@@ -1,6 +1,6 @@
-# SSHs – Interactive SSH Menu for macOS
+# SSHs – Interactive SSH Menu
 
-SSHs is a lightweight shell + AWK tool that lets you browse and connect to SSH hosts using fzf.  
+SSHs is a lightweight shell tool that lets you browse and connect to SSH hosts using fzf. 
 It was inspired by  [trzsz-ssh](https://github.com/trzsz/trzsz-ssh), but keeps things simple by using only:
 
 - zsh
@@ -24,7 +24,7 @@ while making large multi-group SSH configurations easier to navigate.
 
 ## What it does
 
-SSHs parses your OpenSSH configuration and builds an interactive host picker in the terminal using fzf and AWK and allows to search between them.  
+SSHs parses your OpenSSH configuration and builds an interactive host picker in the terminal using fzf and AWK or Powershell on Windows and allows to search between them.  
 It reads:
  
 ```shell
@@ -70,10 +70,10 @@ This allows:
 without maintaining multiple inventories.
 
 ## Requirements
-- macOS/Linux
+- MacOS/Linux/Windows
 - OpenSSH
 - zsh
-- awk
+- awk (on MacOS/Linux)
 - fzf
 - Visual Studio Code (optional, for Ctrl+E)
 
@@ -149,10 +149,10 @@ The recent host cache is stored in: `~/.config/sshs/recent`
 
 ## Installation and Usage
 
-Install fzf:
-```shell
-brew install fzf
-```
+### MacOS/Linux
+
+Install fzf for your OS:
+[fzf installation](https://github.com/junegunn/fzf#installation)
 
 Create SSHs directory:
 
@@ -192,6 +192,20 @@ Show help
 ```shell
 sshs -h
 ```
+
+### Windows
+
+You can run the installation script as follows, or manually follow the steps described for MacOS/Linux:
+```powershell
+irm "https://raw.githubusercontent.com/sikkancs/sshs/main/sshs-install.ps1" | iex
+```
+
+### MacOS/Linux/Windows
+> [!NOTE]  
+> The `~/.ssh/config` file must exist and contain at least the following:
+>```conf
+> Include ~/.ssh/config.d/*.conf
+>```
 
 ## Key Bindings
 | Key          | Action                                 |
