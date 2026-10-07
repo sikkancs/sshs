@@ -1,4 +1,4 @@
-#!/bin/zsh
+#!/usr/bin/env bash
 
 # SSHs - Interactive SSH Host Picker
 #
