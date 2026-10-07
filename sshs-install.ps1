@@ -1,3 +1,34 @@
+
+# Check dependencies
+
+Write-Host "==> Checking dependencies..."
+
+if (-not (Get-Command ssh.exe -ErrorAction SilentlyContinue)) {
+
+    Write-Host ""
+    Write-Host "ERROR: OpenSSH client is not installed."
+    Write-Host ""
+    exit 1
+}
+
+Write-Host "==> Checking fzf..."
+
+if (-not (Get-Command fzf.exe -ErrorAction SilentlyContinue)) {
+
+    Write-Host ""
+    Write-Host "ERROR: fzf is not installed."
+    Write-Host ""
+
+    Write-Host "Install fzf with:"
+    Write-Host ""
+    Write-Host "  winget install fzf"
+    Write-Host ""
+
+    exit 1
+}
+
+Write-Host "fzf found."
+
 # Create ~/.config/sshs
 
 $SshsDir = Join-Path $HOME ".config\sshs"
@@ -16,15 +47,6 @@ Invoke-WebRequest `
 Invoke-WebRequest `
     -Uri "https://raw.githubusercontent.com/sikkancs/sshs/main/sshs.cmd" `
     -OutFile (Join-Path $SshsDir "sshs.cmd")
-
-# Install fzf if missing
-
-if (-not (Get-Command fzf.exe -ErrorAction SilentlyContinue)) {
-
-    Write-Host "Installing fzf..."
-
-    winget install --id junegunn.fzf -e
-}
 
 # Add SSHs folder to PATH
 
