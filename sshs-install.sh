@@ -136,3 +136,31 @@ echo
 echo "Help:"
 echo
 echo "  sshs -h"
+echo
+echo "IMPORTANT"
+echo
+echo "SSHs relies on native OpenSSH configuration."
+echo
+echo "Make sure the following exist:"
+echo
+echo "  ~/.ssh/config"
+echo "  ~/.ssh/config.d/"
+echo
+echo "Your ~/.ssh/config should contain:"
+echo
+echo "  Include ~/.ssh/config.d/*.conf"
+echo
+echo "Place your host definitions into:"
+echo
+echo "  ~/.ssh/config.d/*.conf"
+echo
+echo "Example:"
+echo
+echo "  ~/.ssh/config.d/group1.conf"
+echo "  ~/.ssh/config.d/group2.conf"
+echo "  ~/.ssh/config.d/group3.conf"
+echo
+echo "Without this configuration, host aliases"
+echo "and native 'ssh host-alias' commands"
+echo "will not work correctly."
+echo
