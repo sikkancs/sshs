@@ -11,16 +11,26 @@ It was inspired by  [trzsz-ssh](https://github.com/trzsz/trzsz-ssh), but keeps t
 No Go, no Python, no database.  
 SSHs works directly with your existing OpenSSH configuration and remains fully compatible with native ssh.
 
-SSHs tries to stay small.  
-The goal is not to replace SSH clients or become a terminal dashboard.
-
-It should remain:
-- simple
-- fast
-- dependency-light
-- fully compatible with native OpenSSH
+SSHs is intentionally small.
+The goal is not to replace SSH clients, terminal dashboards or inventory systems.
+ 
+SSHs focuses on:
+ 
+- simplicity and speed
+- minimal dependencies
+- native OpenSSH compatibility
 
 while making large multi-group SSH configurations easier to navigate.
+
+It is perfect for MSPs, consultants, homelabs and anyone managing dozens or hundreds of SSH hosts.
+
+
+SSHs host list:  
+<img src="sshs-screenshot-1.png" alt="SSHs Host List" style="width:70%; height:auto;">
+
+SSHs host list with connection details preview:  
+<img src="sshs-screenshot-2.png" alt="SSHs Host List" style="width:70%; height:auto;">
+
 
 ## What it does
 
@@ -50,7 +60,7 @@ Tags are optional. If no # Tags line is present, the Tags column remains empty.
 - Reads standard OpenSSH configuration
 - Supports ~/.ssh/config.d/*.conf
 - Fully compatible with native ssh
-- Search by Host, HostName and Tags
+- Search by Host, HostName, Tags and Source file
 - Preview selected host configuration
 - Shows source configuration file
 - Tracks and prioritizes the last 5 used hosts
@@ -58,7 +68,7 @@ Tags are optional. If no # Tags line is present, the Tags column remains empty.
 
 ## How It Works
 
-SSHs builds a temporary merged configuration from: `~/.ssh/config` and `~/.ssh/config.d/*.conf`
+SSHs builds a temporary merged configuration from: `~/.ssh/config` and `~/.ssh/config.d/*.conf` or `C:\Users\<user>\.ssh\config` and `C:\Users\<user>\.ssh\config.d\`
 
 This allows:
 
@@ -99,9 +109,9 @@ SSHs application files:
 └── recent
 ```
 
-## Example SSH Configuration
+## Example SSH configuration
 
-Main SSH agent configuration (`~/.ssh/config`):
+Main SSH configuration (`~/.ssh/config` or `C:\Users\<user>\.ssh\config`):
 
 ```conf
 Host *
@@ -110,7 +120,7 @@ Host *
 Include ~/.ssh/config.d/*.conf
 ```
 
-Customer-specific file (`~/.ssh/config.d/group1)`):
+Group-specific file(s) (`~/.ssh/config.d/group1.conf` or `C:\Users\<user>\.ssh\config.d\group1.conf`):
 
 ```conf
 Host vm-1
@@ -149,7 +159,59 @@ The recent host cache is stored in: `~/.config/sshs/recent`
 
 ## Installation and Usage
 
-### MacOS/Linux
+> [!IMPORTANT]
+> SSHs relies on native OpenSSH configuration resolution.
+> The main SSH configuration (`~/.ssh/config` or `%USERPROFILE%\.ssh\config` file must exist and contain:
+> ```conf
+> Include ~/.ssh/config.d/*.conf
+> ```
+> Without it, native commands such as: `ssh host-alias`will not work.
+
+### One-line install
+
+#### macOS/Linux
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/sikkancs/sshs/main/sshs-install.sh | bash
+```
+
+Open a new Terminal window.
+
+Start SSHs:
+
+```shell
+sshs
+```
+
+Show help
+```shell
+sshs -h
+```
+
+
+#### Windows
+
+```powershell
+irm "https://raw.githubusercontent.com/sikkancs/sshs/main/sshs-install.ps1" | iex
+```
+Open a new PowerShell or Windows Terminal window.
+
+Start SSHs:
+
+```powershell
+sshs
+```
+
+Show help:
+
+```powershell
+sshs -Help
+```
+
+
+### Manual install
+
+#### MacOS/Linux
 
 Install fzf for your OS:
 [fzf installation](https://github.com/junegunn/fzf#installation)
@@ -174,13 +236,19 @@ chmod +x ~/.config/sshs/sshs.sh
 chmod +x ~/.config/sshs/sshs.awk
 ```
 
-Add alias:
+Add alias :
 
+zsh:
 ```shell
 echo 'alias sshs="$HOME/.config/sshs/sshs.sh"' >> ~/.zshrc
 source ~/.zshrc
 ```
 
+bash:
+```bash
+echo 'alias sshs="$HOME/.config/sshs/sshs.sh"' >> ~/.bashrc
+source ~/.bashrc
+```
 
 Start SSHs:
 
@@ -193,19 +261,63 @@ Show help
 sshs -h
 ```
 
-### Windows
+#### Windows
 
-You can run the installation script as follows, or manually follow the steps described for MacOS/Linux:
+Install fzf:
+
 ```powershell
-irm "https://raw.githubusercontent.com/sikkancs/sshs/main/sshs-install.ps1" | iex
+winget install fzf
 ```
 
-### MacOS/Linux/Windows
-> [!NOTE]  
-> The `~/.ssh/config` file must exist and contain at least the following:
->```conf
-> Include ~/.ssh/config.d/*.conf
->```
+Create SSHs directory:
+
+```powershell
+New-Item `
+    -ItemType Directory `
+    -Path (Join-Path $HOME ".config\sshs") `
+    -Force
+```
+
+Copy files:
+
+```text
+%USERPROFILE%\.config\sshs\
+├── sshs-main.ps1
+└── sshs.cmd
+```
+
+Add SSHs directory to your PATH:
+ 
+1. Press Win + R
+2. Type: `sysdm.cpl`
+3. Open the **Advanced** tab
+4. Click **Environment Variables**
+5. Under **User variables**, select **Path**
+6. Click **Edit**
+7. Click **New**
+8. Add: `%USERPROFILE%\.config\sshs`
+9. Click **OK** on all dialogs
+
+Open a new PowerShell or Windows Terminal window.
+
+Verify installation:
+
+```powershell
+Get-Command sshs
+```
+
+Start SSHs:
+
+```powershell
+sshs
+```
+
+Show help:
+
+```powershell
+sshs -Help
+```
+
 
 ## Key Bindings
 | Key          | Action                                 |
