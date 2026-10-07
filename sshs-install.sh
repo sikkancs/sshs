@@ -25,43 +25,112 @@ chmod +x "$SSHS_DIR/sshs.awk"
 echo "==> Checking fzf..."
 
 if ! command -v fzf >/dev/null 2>&1; then
+
     echo
     echo "fzf is not installed."
     echo
-    echo "Install fzf first:"
+
+    if command -v brew >/dev/null 2>&1; then
+
+        echo "Install fzf with:"
+        echo
+        echo "  brew install fzf"
+
+    elif command -v apt >/dev/null 2>&1; then
+
+        echo "Install fzf with:"
+        echo
+        echo "  sudo apt install fzf"
+
+    elif command -v dnf >/dev/null 2>&1; then
+
+        echo "Install fzf with:"
+        echo
+        echo "  sudo dnf install fzf"
+
+    elif command -v yum >/dev/null 2>&1; then
+
+        echo "Install fzf with:"
+        echo
+        echo "  sudo yum install fzf"
+
+    elif command -v pacman >/dev/null 2>&1; then
+
+        echo "Install fzf with:"
+        echo
+        echo "  sudo pacman -S fzf"
+
+    elif command -v zypper >/dev/null 2>&1; then
+
+        echo "Install fzf with:"
+        echo
+        echo "  sudo zypper install fzf"
+
+    else
+
+        echo "Please install fzf manually:"
+        echo
+        echo "  https://github.com/junegunn/fzf#installation"
+
+    fi
+
     echo
-    echo "  brew install fzf"
-    echo
-    echo "If Homebrew is not installed:"
-    echo
-    echo '  /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"'
-    echo
+
 else
+
     echo "fzf found."
+
 fi
+
+echo "==> Detecting shell..."
+
+if [ -n "${ZSH_VERSION:-}" ]; then
+
+    RC_FILE="$HOME/.zshrc"
+
+elif [ -n "${BASH_VERSION:-}" ]; then
+
+    RC_FILE="$HOME/.bashrc"
+
+elif [ -f "$HOME/.zshrc" ]; then
+
+    RC_FILE="$HOME/.zshrc"
+
+else
+
+    RC_FILE="$HOME/.bashrc"
+
+fi
+
+echo "Using shell config: $RC_FILE"
 
 echo "==> Checking alias..."
 
-if ! grep -q 'alias sshs=' "$HOME/.zshrc" 2>/dev/null; then
+if ! grep -q 'alias sshs=' "$RC_FILE" 2>/dev/null; then
 
-    echo '' >> "$HOME/.zshrc"
-    echo '# SSHs' >> "$HOME/.zshrc"
-    echo 'alias sshs="$HOME/.config/sshs/sshs.sh"' >> "$HOME/.zshrc"
+    {
+        echo
+        echo '# SSHs'
+        echo 'alias sshs="$HOME/.config/sshs/sshs.sh"'
+    } >> "$RC_FILE"
 
-    echo "Alias added to ~/.zshrc"
+    echo "Alias added to $RC_FILE"
 
 else
 
-    echo "Alias already exists in ~/.zshrc"
+    echo "Alias already exists in $RC_FILE"
 
 fi
 
 echo
 echo "Installation complete."
 echo
-echo "Run:"
+echo "Reload your shell:"
 echo
-echo "  source ~/.zshrc"
+echo "  source $RC_FILE"
+echo
+echo "Start SSHs:"
+echo
 echo "  sshs"
 echo
 echo "Help:"
