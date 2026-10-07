@@ -4,23 +4,21 @@ set -euo pipefail
 
 SSHS_DIR="$HOME/.config/sshs"
 
-echo "==> Creating SSHs directory..."
-mkdir -p "$SSHS_DIR"
+echo "==> Checking dependencies..."
+if ! command -v curl >/dev/null 2>&1; then
+    echo "ERROR: curl is not installed."
+    exit 1
+fi
 
-echo "==> Downloading files..."
+if ! command -v awk >/dev/null 2>&1; then
+    echo "ERROR: awk is not installed."
+    exit 1
+fi
 
-curl -fsSL \
-  https://raw.githubusercontent.com/sikkancs/sshs/main/sshs.sh \
-  -o "$SSHS_DIR/sshs.sh"
-
-curl -fsSL \
-  https://raw.githubusercontent.com/sikkancs/sshs/main/sshs.awk \
-  -o "$SSHS_DIR/sshs.awk"
-
-echo "==> Setting permissions..."
-
-chmod +x "$SSHS_DIR/sshs.sh"
-chmod +x "$SSHS_DIR/sshs.awk"
+if ! command -v ssh >/dev/null 2>&1; then
+    echo "ERROR: OpenSSH client is not installed."
+    exit 1
+fi
 
 echo "==> Checking fzf..."
 
@@ -75,12 +73,31 @@ if ! command -v fzf >/dev/null 2>&1; then
     fi
 
     echo
+    exit 1
 
 else
 
     echo "fzf found."
 
 fi
+
+echo "==> Creating SSHs directory..."
+mkdir -p "$SSHS_DIR"
+
+echo "==> Downloading files..."
+
+curl -fsSL \
+  https://raw.githubusercontent.com/sikkancs/sshs/main/sshs.sh \
+  -o "$SSHS_DIR/sshs.sh"
+
+curl -fsSL \
+  https://raw.githubusercontent.com/sikkancs/sshs/main/sshs.awk \
+  -o "$SSHS_DIR/sshs.awk"
+
+echo "==> Setting permissions..."
+
+chmod +x "$SSHS_DIR/sshs.sh"
+chmod +x "$SSHS_DIR/sshs.awk"
 
 echo "==> Detecting shell..."
 
